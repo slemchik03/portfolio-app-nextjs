@@ -1,55 +1,34 @@
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
-import { supabase } from "../../lib/supabaseClient"
+import downloadList from "../../lib/downloadList"
 
 type OffsetDirection = "right" | "left"
 
 export const PartnersList: React.FC = () => {
     const [partnersImg, setPartnersImg] = useState<string[]>([])
-    const [offset, setOffset] = useState(innerWidth)
+    const [offset, setOffset] = useState(0)
     const [offsetDirection, setOffsetDirection] = useState<OffsetDirection>("left")
     const imgBlockRef = useRef<HTMLDivElement>(null)
 
     const downloadPartners = async () => {
-        try {
-            const { data: partnersInfo } = await supabase
-                .storage
-                .from("assets")
-                .list("partners")
-
-            const result = Promise.all(partnersInfo.map(async ({ name }) => {
-                const partner = await supabase
-                    .storage
-                    .from("assets")
-                    .download(`partners/${name}`)
-
-                return URL.createObjectURL(partner.data)
-            }))
-
-            setPartnersImg(await result)
-        } catch (error) {
-            console.log(error);
-        }
+        setPartnersImg(await downloadList("assets", "partners"))
     }
 
     const imgBlockMoveHandler = () => {
         if (
-            -imgBlockRef.current.offsetLeft >= imgBlockRef.current.offsetWidth
+            -imgBlockRef.current.offsetLeft + innerWidth >= imgBlockRef.current.offsetWidth
             &&
             offsetDirection !== "right"
         ) {
-            console.log("right");
             setOffsetDirection("right")
         }
-        if (offset > innerWidth && offsetDirection !== "left") {
-            console.log("left");
-
+        if (offset >= 0) {
             setOffsetDirection("left")
         }
         if (offsetDirection === "right") {
-            return setOffset(offset => offset + 15) // move to right
+            return setOffset(offset => offset + 5) // move to right
         }
-        setOffset(offset => offset - 10) // move to left
+        setOffset(offset => offset - 5) // move to left
     }
 
     useEffect(() => {

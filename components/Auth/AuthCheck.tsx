@@ -1,7 +1,6 @@
 import { useRouter } from "next/router"
 import { FC, ReactNode, useEffect, useState } from "react"
 import { useAuth } from "../../lib/hooks/useAuth"
-import { RedirectingScreen } from "./RedirectingScreen"
 
 interface Props {
     pageAccess: "public" | "protected"
@@ -9,12 +8,12 @@ interface Props {
 }
 
 export const AuthCheck: FC<Props> = ({ children, pageAccess }) => {
-    const [isSSR, setSSR] = useState(true) // fix react 18 error "Hydratation failed..."
+    const [isMounted, setMounted] = useState(false) // fix react 18 error "Hydratation failed..."
     const session = useAuth()
     const router = useRouter()
 
     useEffect(() => {
-        setSSR(false)
+        setMounted(true)
     }, [])
 
     useEffect(() => {
@@ -25,10 +24,8 @@ export const AuthCheck: FC<Props> = ({ children, pageAccess }) => {
 
     return (
         <>
-            {!isSSR && (
-                (!session && pageAccess !== "public") ?
-                    <RedirectingScreen message="Redirecting to authentification page" /> :
-                    children
+            {isMounted && (
+                (session || pageAccess === "public") && children
             )}
         </>
     )

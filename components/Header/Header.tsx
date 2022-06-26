@@ -32,8 +32,10 @@ export const Header: React.FC = () => {
             <div className="grid grid-flow-col 
             justify-between container items-center">
                 <Link href={"/"}>
-                    <Image src={"/images/logo.png"} width={"136px"}
-                        height={"38px"} objectFit="cover" className="cursor-pointer" />
+                    <a>
+                        <Image src={"/images/logo.png"} width={"136px"}
+                            height={"38px"} objectFit="cover" className="cursor-pointer" />
+                    </a>
                 </Link>
                 <div className="hidden md:grid grid-flow-col items-center 
                 space-x-5 md:space-x-9 text-[18px] text-[#646A89]">

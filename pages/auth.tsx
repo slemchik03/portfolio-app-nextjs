@@ -6,8 +6,6 @@ import { useAuth } from "../lib/hooks/useAuth"
 import NextPageWithLayout from "../lib/types/NextPageWithLayout"
 import { Layout } from "../components/Layout/Layout"
 
-
-
 const AuthBasic: NextPageWithLayout = () => {
     const router = useRouter()
     const session = useAuth()

@@ -22,6 +22,7 @@ export const Layout: FC<Props> = ({ children }) => {
             {
                 children
             }
+
             {/* Footer */}
         </div>
     )

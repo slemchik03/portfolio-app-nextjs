@@ -22,10 +22,10 @@ export const Products: FC = () => {
     return (
         <div className="grid grid-flow-row justify-center mt-[120px] mb-[108px] font-roboto">
             <div className="text-center">
-                <h4 className="text-[#1A2578] text-2xl md:text-3xl xl:text-5xl font-bold pb-4">
+                <h4 className="section-title">
                     Our line of products
                 </h4>
-                <p className="mb-[100px] text-[#484C63]">
+                <p className="section-sub-title mb-[100px]">
                     Here’s what we’re building to help businesses
                     deliver amazing customer experiences.
                 </p>
