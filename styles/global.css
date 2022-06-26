@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .container {
+    @apply max-w-[1210px] mx-auto px-[15px];
+  }
+  .btn-solid {
+    @apply text-white rounded-md px-[20px] py-[7px]
+    md:px-[32px] md:py-[14px] bg-[#BF0830];
+  }
+  .btn-outline {
+    @apply text-[#BF0830] rounded-md px-[20px] py-[7px]
+    md:px-[32px] md:py-[14px] border-2 border-[#BF0830];
+  }
+  .slider-effect {
+    @apply before:w-0 relative before:absolute before:h-[2px] 
+    before:rounded-full before:transition-all before:duration-300
+    hover:before:w-full before:bottom-0 before:bg-gray-300;
+  }
+  .inputField {
+    @apply bg-none w-[320px] p-2 px-5 
+    rounded-full border-2 border-green-300 font-roboto
+     placeholder:text-gray-500 outline-none;
+  }
+}
