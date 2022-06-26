@@ -9,6 +9,7 @@
     "@heroicons/react": "^1.0.6",
     "@supabase/supabase-js": "^1.35.3",
     "@supabase/ui": "^0.36.5",
+    "framer-motion": "^6.3.15",
     "next": "^12.1.6",
     "nextjs-progressbar": "0.0.14",
     "react": "^18.0.0-rc.3",
