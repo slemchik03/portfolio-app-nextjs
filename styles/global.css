@@ -8,11 +8,11 @@
   }
   .btn-solid {
     @apply text-white rounded-md px-[20px] py-[7px]
-    md:px-[32px] md:py-[14px] bg-[#BF0830];
+    md:px-[32px] md:py-[14px] bg-[#BF0830] hover:scale-90 transition-all duration-200;
   }
   .btn-outline {
     @apply text-[#BF0830] rounded-md px-[20px] py-[7px]
-    md:px-[32px] md:py-[14px] border-2 border-[#BF0830];
+    md:px-[32px] md:py-[14px] border-2 border-[#BF0830] hover:scale-90 transition-all duration-200;
   }
   .slider-effect {
     @apply before:w-0 relative before:absolute before:h-[2px] 
@@ -29,5 +29,8 @@
   }
   .section-sub-title {
     @apply text-[#484C63];
+  }
+  .award {
+    @apply absolute max-w-[189px] max-h-[178px];
   }
 }

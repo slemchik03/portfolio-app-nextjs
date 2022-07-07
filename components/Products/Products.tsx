@@ -1,4 +1,5 @@
-import { FC, useEffect, useState } from "react"
+import { FC } from "react"
+import { selector, useRecoilValue } from "recoil"
 import { supabase } from "../../lib/supabaseClient"
 import { ProductCard } from "./ProductCard"
 
@@ -8,19 +9,23 @@ interface Products {
     describe: string
 }
 
-export const Products: FC = () => {
-    const [products, setProducts] = useState<Products[]>([])
-
-    const downloadProducts = async () => {
-        const productsList = (await supabase.from("products").select("describe, imgMain, imgTitle")).data
-        setProducts(productsList)
+const productsQuery = selector<Products[]>({
+    key: "ProductsQuery",
+    get: async () => {
+        const productsList = (await supabase
+            .from("products")
+            .select("describe, imgMain, imgTitle"))
+            .data
+        return productsList
     }
-    useEffect(() => {
-        downloadProducts()
-    }, [])
+
+})
+
+export const Products: FC = () => {
+    const products = useRecoilValue(productsQuery)
 
     return (
-        <div className="grid grid-flow-row justify-center mt-[120px] mb-[108px] font-roboto">
+        <div className="container grid grid-flow-row justify-center mt-[120px] mb-[108px] font-roboto">
             <div className="text-center">
                 <h4 className="section-title">
                     Our line of products

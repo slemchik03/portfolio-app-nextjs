@@ -24,9 +24,11 @@ export const AuthCheck: FC<Props> = ({ children, pageAccess }) => {
 
     return (
         <>
-            {isMounted && (
-                (session || pageAccess === "public") && children
-            )}
+            {
+                isMounted && (
+                    (session || pageAccess === "public") && children
+                )
+            }
         </>
     )
 }

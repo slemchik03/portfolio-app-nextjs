@@ -2,6 +2,7 @@ import { Session } from "@supabase/supabase-js"
 import { createContext, FC, ReactNode, useEffect, useState } from "react"
 import { supabase } from "./supabaseClient"
 
+
 export const AuthProviderContext = createContext<Session>(null)
 
 interface Props {

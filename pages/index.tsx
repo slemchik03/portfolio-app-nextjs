@@ -3,6 +3,7 @@ import { Intro } from "../components/Intro/Intro"
 import { Layout } from "../components/Layout/Layout"
 import { PartnersCompany } from "../components/PartnersCompany/PartnersCompany"
 import { Products } from "../components/Products/Products"
+import Awards from "../components/Awards/Awards"
 import NextPageWithLayout from "../lib/types/NextPageWithLayout"
 
 
@@ -15,10 +16,11 @@ const Home: NextPageWithLayout = () => {
 
             {/* Content */}
             <main>
-                <div className="bg-[url('/images/intro-bg.jpg')] bg-cover min-h-screen overflow-x-hidden px-5">
+                <div className="overflow-hidden">
                     <Intro />
                     <PartnersCompany />
                     <Products />
+                    <Awards />
                 </div>
             </main>
         </>

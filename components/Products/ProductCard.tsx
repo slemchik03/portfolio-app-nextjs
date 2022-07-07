@@ -7,10 +7,13 @@ interface Props {
     imgMain: string
 }
 
+
+const productCardState = 
+
 export const ProductCard: FC<Props> = ({ imgTitle, title, imgMain }) => {
     return (
         <div className="grid grid-flow-row relative p-[60px] 
-        rounded-lg shadow-xl font-roboto max-w-[530px] max-h-[538px] overflow-y-hidden">
+        rounded-lg shadow-xl font-roboto max-w-[530px] max-h-[538px] overflow-y-hidden hover:scale-95 transition-all duration-300 cursor-pointer">
             <div className="max-w-[220px] mb-[40px]">
                 <Image width={"220px"} height={"35px"} objectFit={"contain"} src={imgTitle} className="w-0 h-0" />
             </div>

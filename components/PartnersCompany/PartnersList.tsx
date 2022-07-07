@@ -1,61 +1,68 @@
-import Image from "next/image"
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef } from "react"
+import { atom, selector, useRecoilState, useRecoilValue } from "recoil"
 import downloadList from "../../lib/downloadList"
+import PartnersListItem from "./PartnersListItem"
 
-type OffsetDirection = "right" | "left"
+type Direction = "right" | "left"
+
+interface PartnersBlockState {
+    offset: number,
+    direction: Direction
+}
+
+const partnersBlockState = atom<PartnersBlockState>({
+    key: "PartnersOffset",
+    default: {
+        offset: 0,
+        direction: "left"
+    }
+})
+
+const partnersImagesState = selector<string[]>({
+    key: "PartnersImagesState",
+    get: async () => {
+        const images = await downloadList("assets", "partners")
+        return images
+    }
+})
+
 
 export const PartnersList: React.FC = () => {
-    const [partnersImg, setPartnersImg] = useState<string[]>([])
-    const [offset, setOffset] = useState(0)
-    const [offsetDirection, setOffsetDirection] = useState<OffsetDirection>("left")
-    const imgBlockRef = useRef<HTMLDivElement>(null)
+    const partnersImg = useRecoilValue(partnersImagesState)
+    const [partnersBlock, setPartnersBlock] = useRecoilState(partnersBlockState)
 
-    const downloadPartners = async () => {
-        setPartnersImg(await downloadList("assets", "partners"))
-    }
+    const ref = useRef<HTMLDivElement>(null)
+    const partnersBlockMoveHandler = useCallback((partnersBlock: PartnersBlockState) => {
+        const el = ref.current
 
-    const imgBlockMoveHandler = () => {
-        if (
-            -imgBlockRef.current.offsetLeft + innerWidth >= imgBlockRef.current.offsetWidth
-            &&
-            offsetDirection !== "right"
-        ) {
-            setOffsetDirection("right")
+        // --set direction--
+        if (-el.offsetLeft + innerWidth >= el.offsetWidth && partnersBlock.direction !== "right") {
+            console.log("right");
+            setPartnersBlock({ ...partnersBlock, direction: "right" })
+        } else if (partnersBlock.offset >= 0 && partnersBlock.direction !== "left") {
+            console.log("left");
+            setPartnersBlock({ ...partnersBlock, direction: "left" })
         }
-        if (offset >= 0) {
-            setOffsetDirection("left")
+        // ------
+        // --change the offset--
+        if (partnersBlock.direction === "right") {
+            return setPartnersBlock((state) => ({ ...state, offset: state.offset + 10 }))
         }
-        if (offsetDirection === "right") {
-            return setOffset(offset => offset + 5) // move to right
-        }
-        setOffset(offset => offset - 5) // move to left
-    }
-
-    useEffect(() => {
-        downloadPartners()
+        return setPartnersBlock((state) => ({ ...state, offset: state.offset - 10 }))
+        // ------
     }, [])
 
     useEffect(() => {
-        const intervalId = setInterval(imgBlockMoveHandler, 100)
+        const intervalId = setInterval(() => partnersBlockMoveHandler(partnersBlock), 200)
 
         return () => {
             clearInterval(intervalId)
         }
-    }, [offsetDirection, offset])
+    }, [partnersBlock])
 
     return (
         <div className="grid grid-flow-col relative space-x-5">
-            <div ref={imgBlockRef} className="grid space-x-10 grid-flow-col absolute transition-all duration-[200ms] ease-linear" style={{ left: offset + "px" }}>
-                {
-                    partnersImg.map((partnerImg, index) => {
-                        return (
-                            <p className="min-w-[115px] min-h-[28px]" key={index}>
-                                <Image width="115px" height="28px" src={partnerImg} />
-                            </p>
-                        )
-                    })
-                }
-            </div>
+            <PartnersListItem ref={ref} images={partnersImg} offset={partnersBlock.offset} />
         </div>
     )
 }
